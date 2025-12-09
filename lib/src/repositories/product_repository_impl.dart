@@ -27,6 +27,7 @@ class ProductRepositoryImpl {
   ///
   /// TODO: Return Either<Failure, List<Product>> from dartz
   Future<List<ProductModel>> getAllProducts() async {
+    Object? remoteError;
     try {
       // Try to fetch from remote source
       final remoteProducts = await remoteDataSource.fetchAllProducts();
@@ -36,20 +37,21 @@ class ProductRepositoryImpl {
 
       return remoteProducts;
     } catch (e) {
-      // If remote fetch fails, try to get cached products
-      try {
-        final cachedProducts = await localDataSource.getCachedProducts();
-        if (cachedProducts.isNotEmpty) {
-          return cachedProducts;
-        }
-      } catch (cacheError) {
-        // If cache also fails, rethrow the original error
-        rethrow;
-      }
-
-      // If no cached products available, rethrow the original error
-      rethrow;
+      remoteError = e;
     }
+
+    // If remote fetch fails, try to get cached products
+    try {
+      final cachedProducts = await localDataSource.getCachedProducts();
+      if (cachedProducts.isNotEmpty) {
+        return cachedProducts;
+      }
+    } catch (cacheError) {
+      // Ignore cache error and throw the original remote error
+    }
+
+    // Throw the original remote error
+    Error.throwWithStackTrace(remoteError, StackTrace.current);
   }
 
   /// Fetches a product by ID
@@ -59,6 +61,7 @@ class ProductRepositoryImpl {
   ///
   /// TODO: Return Either<Failure, Product?> from dartz
   Future<ProductModel?> getProductById(String id) async {
+    Object? remoteError;
     try {
       // Try to fetch from remote source
       final remoteProduct = await remoteDataSource.fetchProductById(id);
@@ -70,20 +73,21 @@ class ProductRepositoryImpl {
 
       return remoteProduct;
     } catch (e) {
-      // If remote fetch fails, try to get cached product
-      try {
-        final cachedProduct = await localDataSource.getCachedProductById(id);
-        if (cachedProduct != null) {
-          return cachedProduct;
-        }
-      } catch (cacheError) {
-        // If cache also fails, rethrow the original error
-        rethrow;
-      }
-
-      // If no cached product available, rethrow the original error
-      rethrow;
+      remoteError = e;
     }
+
+    // If remote fetch fails, try to get cached product
+    try {
+      final cachedProduct = await localDataSource.getCachedProductById(id);
+      if (cachedProduct != null) {
+        return cachedProduct;
+      }
+    } catch (cacheError) {
+      // Ignore cache error and throw the original remote error
+    }
+
+    // Throw the original remote error
+    Error.throwWithStackTrace(remoteError, StackTrace.current);
   }
 
   /// Searches for products matching the query
