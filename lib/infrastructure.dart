@@ -1,5 +1,5 @@
 /// Infrastructure Layer
-/// 
+///
 /// This library provides data sources, models, and repository implementations
 /// for the infrastructure layer of the application.
 library infrastructure;

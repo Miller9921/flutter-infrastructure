@@ -1,4 +1,4 @@
-import '../models/product_model.dart';
+import 'package:infrastructure/src/models/product_model.dart';
 
 /// Abstract interface for local product data operations
 abstract class ProductLocalDataSource {
@@ -19,7 +19,7 @@ abstract class ProductLocalDataSource {
 }
 
 /// In-memory implementation of ProductLocalDataSource
-/// 
+///
 /// This implementation stores products in memory for simple caching.
 /// Data is lost when the application restarts.
 class ProductLocalDataSourceImpl implements ProductLocalDataSource {

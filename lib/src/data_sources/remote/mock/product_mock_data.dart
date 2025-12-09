@@ -1,7 +1,7 @@
-import '../../models/product_model.dart';
+import 'package:infrastructure/src/models/product_model.dart';
 
 /// Mock product data for testing and development
-/// 
+///
 /// This list contains realistic product data that can be used
 /// for testing data sources and repositories.
 final List<ProductModel> mockProducts = [
@@ -10,7 +10,8 @@ final List<ProductModel> mockProducts = [
     name: 'Laptop Pro 15',
     description:
         'High-performance laptop with 15-inch display, Intel i7 processor, '
-        '16GB RAM, and 512GB SSD. Perfect for developers and content creators.',
+        '16GB RAM, and 512GB SSD. Perfect for developers and '
+        'content creators.',
     price: 1299.99,
     category: 'Electronics',
     imageUrl: 'https://example.com/images/laptop-pro-15.jpg',
@@ -22,9 +23,9 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '2',
     name: 'Wireless Mouse X200',
-    description:
-        'Ergonomic wireless mouse with precision tracking, 6 programmable '
-        'buttons, and long-lasting battery. Compatible with all operating systems.',
+    description: 'Ergonomic wireless mouse with precision tracking, '
+        '6 programmable buttons, and long-lasting battery. '
+        'Compatible with all operating systems.',
     price: 29.99,
     category: 'Electronics',
     imageUrl: 'https://example.com/images/wireless-mouse-x200.jpg',
@@ -64,9 +65,9 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '5',
     name: 'Desk Lamp LED',
-    description:
-        'Adjustable LED desk lamp with touch controls, multiple brightness '
-        'levels, and USB charging port. Perfect for studying or working.',
+    description: 'Adjustable LED desk lamp with touch controls, multiple '
+        'brightness levels, and USB charging port. Perfect for studying '
+        'or working.',
     price: 39.99,
     category: 'Home & Office',
     imageUrl: 'https://example.com/images/desk-lamp-led.jpg',
@@ -78,8 +79,7 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '6',
     name: 'Bluetooth Headphones',
-    description:
-        'Premium wireless headphones with active noise cancellation, '
+    description: 'Premium wireless headphones with active noise cancellation, '
         '30-hour battery life, and superior sound quality.',
     price: 199.99,
     category: 'Electronics',
@@ -92,9 +92,9 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '7',
     name: 'Yoga Mat Premium',
-    description:
-        'Extra-thick yoga mat with non-slip surface, eco-friendly materials, '
-        'and carrying strap. Ideal for all types of yoga and exercises.',
+    description: 'Extra-thick yoga mat with non-slip surface, eco-friendly '
+        'materials, and carrying strap. Ideal for all types of yoga '
+        'and exercises.',
     price: 34.99,
     category: 'Sports & Outdoors',
     imageUrl: 'https://example.com/images/yoga-mat-premium.jpg',
@@ -108,7 +108,8 @@ final List<ProductModel> mockProducts = [
     name: 'Blender Pro 3000',
     description:
         'Professional-grade blender with powerful motor, multiple speed '
-        'settings, and dishwasher-safe parts. Perfect for smoothies and more.',
+        'settings, and dishwasher-safe parts. Perfect for smoothies '
+        'and more.',
     price: 149.99,
     category: 'Home & Kitchen',
     imageUrl: 'https://example.com/images/blender-pro-3000.jpg',
@@ -120,9 +121,9 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '9',
     name: 'Backpack Travel',
-    description:
-        'Durable travel backpack with laptop compartment, water-resistant '
-        'fabric, and multiple pockets. TSA-approved for carry-on.',
+    description: 'Durable travel backpack with laptop compartment, '
+        'water-resistant fabric, and multiple pockets. TSA-approved '
+        'for carry-on.',
     price: 79.99,
     category: 'Travel & Luggage',
     imageUrl: 'https://example.com/images/backpack-travel.jpg',
@@ -134,9 +135,9 @@ final List<ProductModel> mockProducts = [
   ProductModel(
     id: '10',
     name: 'Smart Watch Series 5',
-    description:
-        'Feature-packed smartwatch with fitness tracking, heart rate monitor, '
-        'GPS, and smartphone notifications. Water-resistant up to 50 meters.',
+    description: 'Feature-packed smartwatch with fitness tracking, heart rate '
+        'monitor, GPS, and smartphone notifications. Water-resistant '
+        'up to 50 meters.',
     price: 249.99,
     category: 'Electronics',
     imageUrl: 'https://example.com/images/smart-watch-series-5.jpg',

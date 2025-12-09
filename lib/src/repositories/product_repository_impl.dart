@@ -1,15 +1,15 @@
-import '../data_sources/local/product_local_data_source.dart';
-import '../data_sources/remote/product_remote_data_source.dart';
-import '../models/product_model.dart';
+import 'package:infrastructure/src/data_sources/local/product_local_data_source.dart';
+import 'package:infrastructure/src/data_sources/remote/product_remote_data_source.dart';
+import 'package:infrastructure/src/models/product_model.dart';
 
 // TODO: Import domain package to implement ProductRepository interface
 // import 'package:domain/domain.dart';
 
 /// Implementation of ProductRepository
-/// 
+///
 /// This repository coordinates between remote and local data sources,
 /// implementing a cache-first strategy with network fallback.
-/// 
+///
 /// TODO: Implement ProductRepository interface from domain package
 class ProductRepositoryImpl {
   final ProductRemoteDataSource remoteDataSource;
@@ -21,19 +21,19 @@ class ProductRepositoryImpl {
   });
 
   /// Fetches all products
-  /// 
+  ///
   /// First tries to fetch from remote source and caches the result.
   /// If remote fetch fails, returns cached products.
-  /// 
+  ///
   /// TODO: Return Either<Failure, List<Product>> from dartz
   Future<List<ProductModel>> getAllProducts() async {
     try {
       // Try to fetch from remote source
       final remoteProducts = await remoteDataSource.fetchAllProducts();
-      
+
       // Cache the fetched products
       await localDataSource.cacheProducts(remoteProducts);
-      
+
       return remoteProducts;
     } catch (e) {
       // If remote fetch fails, try to get cached products
@@ -46,28 +46,28 @@ class ProductRepositoryImpl {
         // If cache also fails, rethrow the original error
         rethrow;
       }
-      
+
       // If no cached products available, rethrow the original error
       rethrow;
     }
   }
 
   /// Fetches a product by ID
-  /// 
+  ///
   /// First tries to fetch from remote source and caches the result.
   /// If remote fetch fails, returns cached product.
-  /// 
+  ///
   /// TODO: Return Either<Failure, Product?> from dartz
   Future<ProductModel?> getProductById(String id) async {
     try {
       // Try to fetch from remote source
       final remoteProduct = await remoteDataSource.fetchProductById(id);
-      
+
       if (remoteProduct != null) {
         // Cache the fetched product
         await localDataSource.cacheProduct(remoteProduct);
       }
-      
+
       return remoteProduct;
     } catch (e) {
       // If remote fetch fails, try to get cached product
@@ -80,16 +80,16 @@ class ProductRepositoryImpl {
         // If cache also fails, rethrow the original error
         rethrow;
       }
-      
+
       // If no cached product available, rethrow the original error
       rethrow;
     }
   }
 
   /// Searches for products matching the query
-  /// 
+  ///
   /// Performs search on remote source only (no caching for search results).
-  /// 
+  ///
   /// TODO: Return Either<Failure, List<Product>> from dartz
   Future<List<ProductModel>> searchProducts(String query) async {
     // Search is performed on remote source only
@@ -102,7 +102,8 @@ class ProductRepositoryImpl {
   }
 
   // TODO: Add methods to convert ProductModel to/from Product entity
-  // These methods will be needed when implementing the domain repository interface:
+  // These methods will be needed when implementing the domain repository
+  // interface:
   //
   // List<Product> _modelsToEntities(List<ProductModel> models) {
   //   return models.map((model) => model.toEntity()).toList();

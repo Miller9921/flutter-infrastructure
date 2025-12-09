@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'product_model.g.dart';
 
 /// Product model for JSON serialization/deserialization
-/// 
+///
 /// This model represents a product from the API and includes methods
 /// for converting to/from JSON and domain entities.
 @JsonSerializable()
