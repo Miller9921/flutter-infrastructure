@@ -212,7 +212,7 @@ void main() {
         name: 'Test Bank',
         description: 'A test bank',
         questionIds: const [],
-        createdAt: DateTime.now(),
+        createdAt: DateTime(2024, 1, 1),
       );
 
       final result = await repository.create(newBank);
@@ -254,7 +254,7 @@ void main() {
         type: 'single_choice',
         tags: const [],
         options: const [],
-        createdAt: DateTime.now(),
+        createdAt: DateTime(2024, 1, 1),
       );
 
       final entity = QuestionAdapter.toEntity(dto);

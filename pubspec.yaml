@@ -7,10 +7,6 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  # Pending: Add domain package as dependency
-  # domain:
-  #   path: ../domain
-  
   json_annotation: ^4.8.1
   dartz: ^0.10.1
 
