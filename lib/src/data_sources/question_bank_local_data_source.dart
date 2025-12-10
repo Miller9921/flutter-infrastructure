@@ -1,0 +1,93 @@
+import '../dtos/question_bank_dto.dart';
+import 'mock/question_bank_mock_data.dart';
+import 'data_source_utils.dart';
+
+/// Abstract interface for question bank local data source
+abstract class QuestionBankLocalDataSource {
+  Future<List<QuestionBankDto>> getAll();
+  Future<QuestionBankDto?> getById(String id);
+  Future<List<QuestionBankDto>> search(String query);
+  Future<QuestionBankDto> create(QuestionBankDto dto);
+  Future<QuestionBankDto> update(QuestionBankDto dto);
+  Future<void> delete(String id);
+}
+
+/// Implementation of question bank local data source with mock data
+class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
+  List<QuestionBankDto> _banks = List.from(QuestionBankMockData.items);
+
+  @override
+  Future<List<QuestionBankDto>> getAll() async {
+    await DataSourceUtils.simulateNetworkDelay();
+    return List.from(_banks);
+  }
+
+  @override
+  Future<QuestionBankDto?> getById(String id) async {
+    await DataSourceUtils.simulateNetworkDelay();
+    try {
+      return _banks.firstWhere((b) => b.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<QuestionBankDto>> search(String query) async {
+    await DataSourceUtils.simulateNetworkDelay();
+    final lowerQuery = query.toLowerCase();
+    return _banks.where((b) {
+      return b.name.toLowerCase().contains(lowerQuery) ||
+          (b.description?.toLowerCase().contains(lowerQuery) ?? false);
+    }).toList();
+  }
+
+  @override
+  Future<QuestionBankDto> create(QuestionBankDto dto) async {
+    await DataSourceUtils.simulateNetworkDelay();
+    
+    // Generate ID if not provided
+    final id = dto.id.isEmpty ? DataSourceUtils.generateId(prefix: 'B') : dto.id;
+    final now = DateTime.now();
+    
+    final newBank = QuestionBankDto(
+      id: id,
+      name: dto.name,
+      description: dto.description,
+      questionIds: List<String>.from(dto.questionIds),
+      createdAt: now,
+      updatedAt: null,
+    );
+    
+    _banks.add(newBank);
+    return newBank;
+  }
+
+  @override
+  Future<QuestionBankDto> update(QuestionBankDto dto) async {
+    await DataSourceUtils.simulateNetworkDelay();
+    
+    final index = _banks.indexWhere((b) => b.id == dto.id);
+    if (index == -1) {
+      throw Exception('Question bank not found: ${dto.id}');
+    }
+    
+    final updatedBank = QuestionBankDto(
+      id: dto.id,
+      name: dto.name,
+      description: dto.description,
+      questionIds: List<String>.from(dto.questionIds),
+      createdAt: _banks[index].createdAt,
+      updatedAt: DateTime.now(),
+    );
+    
+    _banks[index] = updatedBank;
+    return updatedBank;
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    await DataSourceUtils.simulateNetworkDelay();
+    _banks.removeWhere((b) => b.id == id);
+  }
+}
