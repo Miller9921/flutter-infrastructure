@@ -1,5 +1,6 @@
 import '../dtos/question_bank_dto.dart';
 import 'mock/question_bank_mock_data.dart';
+import 'data_source_utils.dart';
 
 /// Abstract interface for question bank local data source
 abstract class QuestionBankLocalDataSource {
@@ -15,22 +16,15 @@ abstract class QuestionBankLocalDataSource {
 class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
   List<QuestionBankDto> _banks = List.from(QuestionBankMockData.items);
 
-  /// Simulates network latency
-  Future<void> _simulateDelay() async {
-    await Future.delayed(
-      Duration(milliseconds: 300 + (100 * (0.5 - (DateTime.now().millisecond % 1000) / 1000)).round()),
-    );
-  }
-
   @override
   Future<List<QuestionBankDto>> getAll() async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     return List.from(_banks);
   }
 
   @override
   Future<QuestionBankDto?> getById(String id) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     try {
       return _banks.firstWhere((b) => b.id == id);
     } catch (e) {
@@ -40,7 +34,7 @@ class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
 
   @override
   Future<List<QuestionBankDto>> search(String query) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     final lowerQuery = query.toLowerCase();
     return _banks.where((b) {
       return b.name.toLowerCase().contains(lowerQuery) ||
@@ -50,10 +44,10 @@ class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
 
   @override
   Future<QuestionBankDto> create(QuestionBankDto dto) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     
     // Generate ID if not provided
-    final id = dto.id.isEmpty ? _generateId() : dto.id;
+    final id = dto.id.isEmpty ? DataSourceUtils.generateId(prefix: 'B') : dto.id;
     final now = DateTime.now();
     
     final newBank = QuestionBankDto(
@@ -71,7 +65,7 @@ class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
 
   @override
   Future<QuestionBankDto> update(QuestionBankDto dto) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     
     final index = _banks.indexWhere((b) => b.id == dto.id);
     if (index == -1) {
@@ -93,14 +87,7 @@ class QuestionBankLocalDataSourceImpl implements QuestionBankLocalDataSource {
 
   @override
   Future<void> delete(String id) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     _banks.removeWhere((b) => b.id == id);
-  }
-
-  /// Generates a unique ID for a question bank
-  String _generateId() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final random = timestamp % 10000;
-    return 'B-$random';
   }
 }

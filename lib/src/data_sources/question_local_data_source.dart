@@ -1,5 +1,6 @@
 import '../dtos/question_dto.dart';
 import 'mock/question_mock_data.dart';
+import 'data_source_utils.dart';
 
 /// Abstract interface for question local data source
 abstract class QuestionLocalDataSource {
@@ -18,22 +19,15 @@ abstract class QuestionLocalDataSource {
 class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
   List<QuestionDto> _questions = List.from(QuestionMockData.items);
 
-  /// Simulates network latency
-  Future<void> _simulateDelay() async {
-    await Future.delayed(
-      Duration(milliseconds: 300 + (100 * (0.5 - (DateTime.now().millisecond % 1000) / 1000)).round()),
-    );
-  }
-
   @override
   Future<List<QuestionDto>> getAll() async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     return List.from(_questions);
   }
 
   @override
   Future<QuestionDto?> getById(String id) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     try {
       return _questions.firstWhere((q) => q.id == id);
     } catch (e) {
@@ -43,7 +37,7 @@ class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
 
   @override
   Future<List<QuestionDto>> search(String query) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     final lowerQuery = query.toLowerCase();
     return _questions.where((q) {
       return q.statement.toLowerCase().contains(lowerQuery) ||
@@ -54,22 +48,22 @@ class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
 
   @override
   Future<List<QuestionDto>> getByType(String type) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     return _questions.where((q) => q.type == type).toList();
   }
 
   @override
   Future<List<QuestionDto>> getByBankId(String bankId) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     return _questions.where((q) => q.bankId == bankId).toList();
   }
 
   @override
   Future<QuestionDto> create(QuestionDto dto) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     
     // Generate ID if not provided
-    final id = dto.id.isEmpty ? _generateId() : dto.id;
+    final id = dto.id.isEmpty ? DataSourceUtils.generateId() : dto.id;
     final now = DateTime.now();
     
     final newQuestion = QuestionDto(
@@ -94,7 +88,7 @@ class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
 
   @override
   Future<QuestionDto> update(QuestionDto dto) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     
     final index = _questions.indexWhere((q) => q.id == dto.id);
     if (index == -1) {
@@ -123,13 +117,13 @@ class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
 
   @override
   Future<void> delete(String id) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     _questions.removeWhere((q) => q.id == id);
   }
 
   @override
   Future<List<QuestionDto>> bulkImport(List<QuestionDto> dtos) async {
-    await _simulateDelay();
+    await DataSourceUtils.simulateNetworkDelay();
     
     final imported = <QuestionDto>[];
     for (final dto in dtos) {
@@ -138,12 +132,5 @@ class QuestionLocalDataSourceImpl implements QuestionLocalDataSource {
     }
     
     return imported;
-  }
-
-  /// Generates a unique ID for a question
-  String _generateId() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final random = timestamp % 10000;
-    return random.toString();
   }
 }
