@@ -9,10 +9,11 @@ enum QuestionType {
   image,           // Image-based question
 }
 
-/// Extension to convert string to QuestionType
-extension QuestionTypeExtension on QuestionType {
-  String toStringValue() {
-    switch (this) {
+/// Helper class for QuestionType conversion
+class QuestionTypeHelper {
+  /// Converts QuestionType enum to string
+  static String toString(QuestionType type) {
+    switch (type) {
       case QuestionType.multipleChoice:
         return 'multiple_choice';
       case QuestionType.singleChoice:
@@ -30,6 +31,7 @@ extension QuestionTypeExtension on QuestionType {
     }
   }
 
+  /// Converts string to QuestionType enum
   static QuestionType fromString(String value) {
     switch (value) {
       case 'multiple_choice':
@@ -50,6 +52,11 @@ extension QuestionTypeExtension on QuestionType {
         throw ArgumentError('Unknown question type: $value');
     }
   }
+}
+
+/// Extension to convert QuestionType to string
+extension QuestionTypeExtension on QuestionType {
+  String toStringValue() => QuestionTypeHelper.toString(this);
 }
 
 /// Represents a tag for categorizing questions

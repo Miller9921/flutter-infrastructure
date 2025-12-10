@@ -10,7 +10,7 @@ abstract class QuestionAdapter {
     return Question(
       id: dto.id,
       statement: dto.statement,
-      type: QuestionTypeExtension.fromString(dto.type),
+      type: QuestionTypeHelper.fromString(dto.type),
       tags: TagAdapter.toEntityList(dto.tags),
       bankId: dto.bankId,
       options: QuestionOptionAdapter.toEntityList(dto.options),

@@ -264,20 +264,20 @@ void main() {
       expect(dtoAgain.type, 'single_choice');
     });
 
-    test('QuestionTypeExtension should convert string to enum', () {
-      expect(QuestionTypeExtension.fromString('multiple_choice'), 
+    test('QuestionTypeHelper should convert string to enum', () {
+      expect(QuestionTypeHelper.fromString('multiple_choice'), 
              QuestionType.multipleChoice);
-      expect(QuestionTypeExtension.fromString('single_choice'), 
+      expect(QuestionTypeHelper.fromString('single_choice'), 
              QuestionType.singleChoice);
-      expect(QuestionTypeExtension.fromString('true_false'), 
+      expect(QuestionTypeHelper.fromString('true_false'), 
              QuestionType.trueFalse);
-      expect(QuestionTypeExtension.fromString('matching'), 
+      expect(QuestionTypeHelper.fromString('matching'), 
              QuestionType.matching);
-      expect(QuestionTypeExtension.fromString('fill_in_blank'), 
+      expect(QuestionTypeHelper.fromString('fill_in_blank'), 
              QuestionType.fillInBlank);
-      expect(QuestionTypeExtension.fromString('multimedia'), 
+      expect(QuestionTypeHelper.fromString('multimedia'), 
              QuestionType.multimedia);
-      expect(QuestionTypeExtension.fromString('image'), 
+      expect(QuestionTypeHelper.fromString('image'), 
              QuestionType.image);
     });
 
