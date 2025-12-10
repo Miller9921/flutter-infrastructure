@@ -79,7 +79,7 @@ class TagRepositoryImpl implements TagRepository {
   Future<Either<Failure, void>> delete(String id) async {
     try {
       await _localDataSource.delete(id);
-      return const Right(null);
+      return const Right(());
     } catch (e) {
       return Left(CacheFailure('Failed to delete tag: ${e.toString()}'));
     }
